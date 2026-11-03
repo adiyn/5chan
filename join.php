@@ -9,6 +9,12 @@ if (isset($_GET['logout'])) {
     header('Location: join.php');
     exit;
 }
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['join'])) {
+    $_SESSION['user'] = 'Anon';
+    header('Location: index.php');
+    exit;
+}
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -20,11 +26,13 @@ if (isset($_GET['logout'])) {
 </head>
 <body>
     <div class="container join-wrapper">
-        <div class="card join-card">
-            <h1>5chan</h1>
-            <p>Ready to join the board?</p>
-            <a href="index.php" class="join-btn">Join /g/</a>
-        </div>
+    <div class="card join-card">
+        <h1>5chan</h1>
+        <p>Ready to join the board? :3</p>
+        <form method="POST" action="join.php">
+            <button type="submit" name="join" class="join-btn">Join /g/</button>
+        </form>
     </div>
+</div>
 </body>
 </html>
