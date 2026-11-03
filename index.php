@@ -19,12 +19,12 @@ session_start();
         <!-- connection -->
         <section id="auth-panel" class="card">
             <h2>Welcome <?php $_SESSION['user'] ?? '' ?></h2>
-            <form id="login-form">
+            <form id="login-form" method="POST" action="index.php">
                 <label for="username">Nick :</label>
-                <input type="text" id="username" name="username" required placeholder="username">
+                <input type="text" id="username" name="username" required placeholder="username" value="<?= htmlspecialchars($_POST['username'] ?? '') ?>">
 
-                <input type="text" id="chat-message" placeholder="type something" autocomplete="off" required>
-                <button type="submit">Send</button>
+                <input type="text" id="chat-message" name="message" placeholder="type something" autocomplete="off" required>
+                <button type="submit" name="submit" value="1">Send</button>
             </form>
         </section>
 
@@ -38,12 +38,16 @@ session_start();
                     <?php
                     require __DIR__ . '/pdo.php';
                     $pdo = get_db();
-                    if(isset($_POST['submit']) && isset($_POST['message'])) {
-                        $message = $_POST['message'];
-                        $date = new DateTimeImmutable('now', $timezone);
-                        $user = $_POST['user'] ?? null;
-                        $stmt = $pdo->prepare('insert into messages (date, user, message) values (sysdate, username, mess)');
-                        $stmt->execute(['user' => $_POST['user']]);
+
+                    if (isset($_POST['submit']) && !empty($_POST['message']) && !empty($_POST['username'])) {
+                        $message = trim($_POST['message']);
+                        $user = trim($_POST['username']);
+
+                        $stmt = $pdo->prepare('INSERT INTO messages (date, user, message) VALUES (NOW(), :user, :message)');
+                        $stmt->execute([
+                            'user'    => $user,
+                            'message' => $message,
+                        ]);
                     }
                     ?>
                 </div>
