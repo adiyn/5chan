@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 session_start();
 
-if (empty($_SESSION['user'])) {
+if (empty($_SESSION['logged_in'])) {
     header('Location: join.php');
     exit;
 }
@@ -13,20 +13,18 @@ $pdo = get_db();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $user = trim($_POST['username'] ?? '');
-    if ($user === '') {
-        $user = 'Anon';
-    }
-
     $message = trim($_POST['message'] ?? '');
 
     if ($message !== '') {
+        $displayName = $user !== '' ? $user : 'Anon';
+
         $stmt = $pdo->prepare('INSERT INTO `messages` (`date`, `user`, `message`) VALUES (NOW(), :user, :message)');
         $stmt->execute([
-            'user'    => $user,
+            'user'    => $displayName,
             'message' => $message,
         ]);
 
-        $_SESSION['user'] = $user;
+        $_SESSION['user'] = $user !== '' ? $user : null;
 
         header('Location: index.php');
         exit;
@@ -55,7 +53,7 @@ $messages = $stmt->fetchAll();
 <body>
     <div class="container">
         <section id="auth-panel" class="card">
-            <h2>Welcome <?= htmlspecialchars($_SESSION['user'] ?? 'Anonymous') ?></h2>
+            <h2>Welcome <?= htmlspecialchars($_SESSION['user'] ?? 'Anon') ?></h2>
             <form id="login-form" method="POST" action="index.php">
                 <label for="username">Nick :</label>
                 <input 
