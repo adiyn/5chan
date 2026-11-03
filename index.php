@@ -13,15 +13,19 @@ $pdo = get_db();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $user = trim($_POST['username'] ?? '');
+    if ($user === '') {
+        $user = 'Anon';
+    }
+
     $message = trim($_POST['message'] ?? '');
 
-    if ($user !== '' && $message !== '') {
+    if ($message !== '') {
         $stmt = $pdo->prepare('INSERT INTO `messages` (`date`, `user`, `message`) VALUES (NOW(), :user, :message)');
         $stmt->execute([
             'user'    => $user,
             'message' => $message,
         ]);
-        
+
         $_SESSION['user'] = $user;
 
         header('Location: index.php');
