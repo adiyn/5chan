@@ -51,8 +51,7 @@ $messages = $stmt->fetchAll();
                 <input 
                     type="text" 
                     id="username" 
-                    name="username" 
-                    required 
+                    name="username"
                     placeholder="username" 
                     value="<?= htmlspecialchars($_SESSION['user'] ?? '') ?>"
                     >
