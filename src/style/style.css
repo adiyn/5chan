@@ -86,3 +86,30 @@ button {
     cursor: pointer;
     padding: 6px 12px;
 }
+
+.join-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 70vh;
+}
+
+.join-card {
+    text-align: center;
+    padding: 30px;
+}
+
+.join-btn {
+    display: inline-block;
+    background: #117743;
+    color: #fff;
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    font-weight: bold;
+    margin-top: 15px;
+}
+
+.join-btn:hover {
+    background: #0d5c34;
+}

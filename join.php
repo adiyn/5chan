@@ -1,29 +1,30 @@
 <?php
 declare(strict_types=1);
 
-$_SESSION['user'] = '';
+session_start();
 
 if (isset($_GET['logout'])) {
     $_SESSION = [];
     session_destroy();
-    header('Location: index.php');
+    header('Location: join.php');
     exit;
 }
 ?>
-
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Join 5chan</title>
+    <link rel="stylesheet" href="src/style/style.css">
 </head>
-
 <body>
-    <a href="index.php">
-        join
-    </a>
+    <div class="container join-wrapper">
+        <div class="card join-card">
+            <h1>5chan</h1>
+            <p>Ready to join the board?</p>
+            <a href="index.php" class="join-btn">Join /g/</a>
+        </div>
+    </div>
 </body>
-
 </html>
