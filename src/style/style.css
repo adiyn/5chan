@@ -1,3 +1,4 @@
+/* themes */
 :root,
 [data-theme="term-mono"] {
     --mono-bg: #000000;
@@ -53,7 +54,7 @@ html, body {
     -moz-osx-font-smoothing: grayscale;
 }
 
-/* Scrollbars */
+/* scrollbar stuff */
 ::-webkit-scrollbar {
     width: 8px;
     height: 8px;
@@ -66,7 +67,7 @@ html, body {
     background: var(--mono-fg);
 }
 
-/* Base TUI Root */
+/* tui root */
 .tui-root {
     display: flex;
     flex-direction: column;
@@ -74,7 +75,7 @@ html, body {
     padding: 8px 12px;
 }
 
-/* Top Status Bar */
+/* tp status bar */
 .tui-status-top {
     display: flex;
     justify-content: space-between;
@@ -107,7 +108,7 @@ html, body {
     font-size: 11px;
 }
 
-/* TUI Theme Dropdown */
+/* theme menu */
 .tui-dropdown {
     background: var(--mono-inv-bg);
     color: var(--mono-inv-fg);
@@ -130,7 +131,7 @@ html, body {
     color: var(--mono-fg);
 }
 
-/* Workspace Frame */
+/* workspace frame */
 .tui-workspace {
     display: flex;
     flex-direction: column;
@@ -140,7 +141,7 @@ html, body {
     border-top: none;
 }
 
-/* Admin Ribbon */
+/* admin ribbon */
 .tui-admin-bar {
     display: flex;
     align-items: center;
@@ -174,7 +175,7 @@ html, body {
     color: var(--mono-inv-fg);
 }
 
-/* Buffer Window */
+/* chat window */
 .tui-buffer-container {
     flex-grow: 1;
     overflow: hidden;
@@ -221,7 +222,7 @@ html, body {
     font-style: italic;
 }
 
-/* Secondary Status Strip */
+/* secondary status strip */
 .tui-status-sub {
     display: flex;
     justify-content: space-between;
@@ -263,7 +264,7 @@ html, body {
     color: var(--mono-inv-fg);
 }
 
-/* Command Prompt Input Line */
+/* terminal like input hihihi */
 .tui-input-line {
     display: flex;
     align-items: center;
@@ -346,7 +347,7 @@ html, body {
     cursor: not-allowed;
 }
 
-/* Auth Center Box */
+/* center auth box */
 .auth-center-wrap {
     display: flex;
     align-items: center;
@@ -363,7 +364,7 @@ html, body {
     flex-direction: column;
 }
 
-/* Window Titlebar with Close [X] */
+/* titlebar */
 .window-titlebar {
     display: flex;
     justify-content: space-between;

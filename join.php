@@ -16,6 +16,18 @@ if (isset($_GET['logout'])) {
             $params['httponly']
         );
     }
+    if (ini_get('session.use_cookies')) {
+        $params = session_get_cookie_params();
+        setcookie(
+            session_name(),
+            '',
+            time() - 42000,
+            $params['path'],
+            $params['domain'],
+            $params['secure'],
+            $params['httponly']
+        );
+    }
     session_destroy();
     header('Location: join.php');
     exit;
@@ -63,12 +75,53 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 }
+
+require_once __DIR__ . '/pdo.php';
+require_once __DIR__ . '/filter.php';
+
+$pdo = get_db();
+$error = null;
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (isset($_POST['join_anon'])) {
+        $_SESSION['logged_in'] = true;
+        $_SESSION['user'] = 'Anon';
+        $_SESSION['is_admin'] = false;
+        header('Location: index.php');
+        exit;
+    }
+
+    if (isset($_POST['login'])) {
+        $username = trim($_POST['username'] ?? '');
+        $password = $_POST['password'] ?? '';
+
+        if ($violation = ContentFilter::check($username)) {
+            $error = 'Nom d\'utilisateur interdit.';
+        } elseif ($username !== '' && $password !== '') {
+            $stmt = $pdo->prepare('SELECT `id`, `username`, `password_hash`, `role` FROM `users` WHERE `username` = :username LIMIT 1');
+            $stmt->execute(['username' => $username]);
+            $userData = $stmt->fetch();
+
+            if ($userData && password_verify($password, $userData['password_hash'])) {
+                $_SESSION['logged_in'] = true;
+                $_SESSION['user'] = $userData['username'];
+                $_SESSION['is_admin'] = ($userData['role'] === 'admin');
+                header('Location: index.php');
+                exit;
+            }
+            $error = 'Identifiants invalides.';
+        }
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>5chan - Auth</title>
+    <!-- Use root-relative path or exact path based on your folder structure -->
+    <link rel="stylesheet" href="src/style/style.css?v=<?= time() ?>">
     <title>5chan - Auth</title>
     <!-- Use root-relative path or exact path based on your folder structure -->
     <link rel="stylesheet" href="src/style/style.css?v=<?= time() ?>">
